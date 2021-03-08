@@ -1,0 +1,33 @@
+# Don't track content of these folders #
+########################################
+
+
+# Ignore Photos #
+
+# Ignore all logs #
+###################
+*.log
+
+
+# Ignore checkpoints #
+######################
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+
+# R Stuff #
+###########
+
+*.Rproj.user
+*.Rhistory
+*.DS_Store
+.Rproj.user
+
+
+# Virtual environment stuff
+*/.venv/*
+*/.vscode/*
+
+# images
+*/assets/*
+*.jpeg

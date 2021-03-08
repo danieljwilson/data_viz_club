@@ -1,0 +1,40 @@
+Entity,GHG emissions (gCO2e/km)
+Black cab (taxi),0.21176
+Bus,0.10471
+Coach,0.02779
+"Diesel car, 2 passengers",0.085305
+"Diesel car, 4 passengers",0.0426525
+Domestic flight,0.25493
+Eurostar (international rail),0.00597
+Ferry (car passenger),0.129518
+Ferry (foot passenger),0.018738
+Large car (diesel),0.20947
+Large car (hybrid),0.13177
+Large car (petrol),0.28295
+Large car (plug-in hybrid electric),0.07731
+Large electric vehicle (UK electricity),0.06688
+Light rail and tram,0.03508
+London Underground,0.03084
+Long-haul flight (business class),0.43446
+Long-haul flight (economy),0.14981
+Long-haul flight (economy+),0.2397
+Long-haul flight (first class),0.59925
+Medium car (diesel),0.17061
+Medium car (hybrid),0.10895
+Medium car (petrol),0.19228
+Medium car (plug-in hybrid electric),0.07083
+Medium electric vehicle (UK electricity),0.05317
+Motorcycle (large),0.13501
+Motorcycle (medium),0.10289
+Motorcycle (small),0.08445
+National rail,0.04115
+"Petrol car, 2 passengers",0.09614
+"Petrol car, 4 passengers",0.04807
+Short-haul flight (business class),0.2336
+Short-haul flight (economy),0.15573
+Small car (diesel),0.14208
+Small car (hybrid),0.1052
+Small car (petrol),0.15371
+Small car (plug-in hybrid electric),0.02935
+Small electric vehicle (UK electricity),0.04567
+Taxi,0.15018

@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "minutiae-data_viz"
+version = "0.1.0"
+description = "Visualizing participant data from minutiae cycle"
+authors = ["Daniel J Wilson <daniel.j.wilson@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "3.9.1"
+pandas = "^1.2.1"
+plotly = "4.14.3"
+jupyterlab = "^3.0.7"
+ipywidgets = ">=7.5"
+altair = "^4.1.0"
+vega-datasets = "^0.9.0"
+streamlit = "^0.76.0"
+jupyter = "^1.0.0"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^3.8.4"
+black = "^20.8b1"
+mypy = "^0.800"
+pytest = "^6.2.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
