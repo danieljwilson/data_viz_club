@@ -13,6 +13,13 @@ let valuesX, actionX;
 
 let start;
 
+// for trace
+let xTrace = [];
+let yTrace = [];
+
+let prevAngle;
+let gapFromTop;
+
 function preload() {
   // Ensure the .ttf or .otf font stored in the assets directory
   // is loaded before setup() and draw() are called
@@ -30,8 +37,10 @@ function setup() {
   noStroke();
   angleMode(DEGREES);
   
+  gapFromTop = 60;
+  
   startX = idealX = currentX = windowWidth/6;
-  startY = idealY = currentY = windowHeight/4+20;
+  startY = idealY = currentY = windowHeight/4+gapFromTop;
   distance = windowWidth*2/3;
   
   actionGap = 0;
@@ -43,16 +52,24 @@ function setup() {
   actionX = windowWidth/10 + 1 * windowWidth/6;
   
   start = 0;
+  
+  xTrace.push(windowWidth/6);
+  yTrace.push(windowHeight/4+gapFromTop);
+  
+  prevAngle = 0;
+  
 }
 
 function draw() {
   background(160);
  
-  // bg rect 
+  // bg rect
+  //////////////////
   fill(255);
   rect(0,windowHeight/4,windowWidth,windowHeight/2);
   
   // start rect
+  //////////////////
   fill(120);
   rect(windowWidth/10 - 120, (windowHeight/30*5), 100, windowHeight/30+20);
   fill(35);
@@ -60,6 +77,7 @@ function draw() {
   text("START", windowWidth/10 - 107, (windowHeight/30*5)+ 18);  
   
   // slider rects
+  //////////////////
   //stroke(50);
   rect(windowWidth/10, (windowHeight/30*4.5), windowWidth/6, 20, 20);
   rect(windowWidth/10, (windowHeight/30*6), windowWidth/6, 20, 20);
@@ -74,28 +92,57 @@ function draw() {
   text(str(int(actionGap*100)) + '%', windowWidth/10 + windowWidth/6 + 5, (windowHeight/30*6)+8);
   
   // Current position calculations
-  //var xDif = (sq(stepSize) + sq(stepSize*(1-actionGap)) - sq(valueGap))/(2*stepSize);
-  //var yDif = sqrt(sq(stepSize*(1-actionGap)) - sq(xDif));
-  var angle = asin(valueGap);
-  var yDif = sin(angle) * (stepSize * (1-actionGap));
-  var xDif = cos(angle) * (stepSize * (1-actionGap));
+  //////////////////
+
+  var actionNoise = randomGaussian(0, 0.3);
+  var valueNoise = randomGaussian(0,0.8);
   
-  if (start>0) {
+  var angle = asin(constrain(valueGap+valueNoise, -1,1)); // has to be between these values
+  var avgAngle = (angle + prevAngle)/2;
+  prevAngle = angle;
+  var yDif = sin(avgAngle) * (stepSize * (1-actionGap + actionNoise));
+  var xDif = cos(avgAngle) * (stepSize * (1-actionGap + actionNoise));
+  
+  // Check to see if 'start' has been pushed
+  if (start===1) {
     // update until "life" is over ;)
     if(idealX < windowWidth * 5/6){
       idealX+=1;
       currentX = currentX + xDif;
       currentY = currentY + yDif;
+      // append to array
+      xTrace.push(currentX);
+      yTrace.push(currentY);
     }
   }
   
+  if (start===0){
+    xTrace = [];
+    yTrace = [];
+    startX = idealX = currentX = windowWidth/6;
+    startY = idealY = currentY = windowHeight/4+gapFromTop;
+  }
+  
+  // loop through array and draw
+  for(let i = 0; i < xTrace.length-1; i++) {
+    stroke(0);
+    line(xTrace[i], yTrace[i], xTrace[i+1], yTrace[i+1]);
+  }
+  
+  // draw ellipse
+  var years = floor(xTrace.length/(distance/60));
+  for(let j = 0; j<=years; j++){
+    var fade = 255 - (years - j) * (255/30);
+    noStroke();
+    fill(0,fade);
+    ellipse(xTrace[j*floor(distance/60)], yTrace[j*floor(distance/60)], 15-(years-j)*1/4, 15-(years-j)*1/4);
+  }
+
   // meta ideal
   //line
   stroke(56, 141, 217);
   strokeWeight(2);
   line(startX,startY,idealX,idealY);
-  stroke(80);
-  line(startX,startY,currentX,currentY);
   stroke(245, 86, 86);
   line(currentX,currentY,idealX,idealY);
   noStroke();
@@ -106,11 +153,12 @@ function draw() {
   ellipse(idealX,idealY,24,24); // ideal
   happyFace(currentX,currentY,24); // current
   
-  
-  
+  print('Current y:' + str(currentY));
+  print('Start y:' + str(startY));
+  print('ideal y:' + str(idealY));
+  print('length of xtrace:' + str(xTrace.length));
   // Calculate Year
   var year = (idealX-startX)/distance * 60;
-  
   // Calculate Total Gap
   var a = idealX - currentX;
   var b = currentY - idealY;
@@ -130,18 +178,25 @@ function mouseClicked() {
     valuesX = mouseX;
     valueGap = ((windowWidth/6 + windowWidth/10) - valuesX) / (windowWidth/6);
   }
+  // action gap
   if (mouseX > windowWidth/10 && mouseX < windowWidth/10 + windowWidth/6 && mouseY > (windowHeight/30*6) && mouseY < (windowHeight/30*6) + 20) {
     actionX = mouseX;
     actionGap = ((windowWidth/6 + windowWidth/10) - actionX) / (windowWidth/6);
   }
+  // start
   if (mouseX > windowWidth/10 - 200 && mouseX < windowWidth/10 - 20 && mouseY > (windowHeight/30*5) && mouseY < (windowHeight/30*6) + 20) {
     if (start===0){
       start = 1;
+      startX = idealX = currentX = windowWidth/6;
+      startY = idealY = currentY = windowHeight/4+gapFromTop;
+      xTrace = [];
+      yTrace = [];
+      xTrace.push(windowWidth/6);
+      yTrace.push(windowHeight/4+gapFromTop);
     }
     else{
       start = 0;
-      startX = idealX = currentX = windowWidth/6;
-      startY = idealY = currentY = windowHeight/4+20;
+      
     }
   }
 }
