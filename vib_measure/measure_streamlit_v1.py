@@ -32,10 +32,10 @@ DATA_URL = (
     "https://s3-us-west-2.amazonaws.com/"
     "streamlit-demo-data/uber-raw-data-sep14.csv.gz"
 )
-FULL_DATA_PATH = "data/streamlit.csv"
+FULL_DATA_PATH = "vib_measure/data/streamlit.csv"
 # GAP_DATA_PATH = "data/streamlit.csv"
 # VALID_DATA_PATH = "data/streamlit.csv"
-DEMO_DATA_PATH = "data/streamlit_demo.csv"
+DEMO_DATA_PATH = "vib_measure/data/streamlit_demo.csv"
 
 
 @st.cache
